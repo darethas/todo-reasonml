@@ -3,7 +3,10 @@ module TodoAppItem = {
   let make = (~task, ~checked, ~onChange, _children) => {
     ...component,
     render: _self => {
-      <li> {ReasonReact.string(task)} <input type_="checkbox" checked onChange /> </li>;
+      <li>
+        {checked ? <del> {ReasonReact.string(task)} </del> : ReasonReact.string(task)}
+        <input type_="checkbox" checked onChange />
+      </li>;
     },
   };
 };
@@ -26,14 +29,13 @@ module TodoApp = {
 
   type action =
     | AddTodo(string)
-    | CompleteTodo
     | ToggleTodo(int)
     | ToggleForm;
 
   let component = ReasonReact.reducerComponent("TodoApp");
 
   let make = _children => {
-    let change = (evt, _self) => Js.log(evt);
+    let change = (idx, _evt, self) => self.ReasonReact.send(ToggleTodo(idx));
     let setRef = (theRef, {ReasonReact.state}) => {
       state.inputRef := Js.Nullable.toOption(theRef);
     };
@@ -81,7 +83,6 @@ module TodoApp = {
             | ShowButton => ShowForm
             };
           ReasonReact.Update({...state, formToggle: newFormToggle});
-        | CompleteTodo => ReasonReact.NoUpdate
         };
       },
 
@@ -95,7 +96,7 @@ module TodoApp = {
                    key={string_of_int(idx) ++ "-" ++ item.name}
                    task={item.name}
                    checked={item.complete}
-                   onChange={self.handle(change)}
+                   onChange={self.handle(change(idx))}
                  />,
                self.state.todos,
              )

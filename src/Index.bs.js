@@ -24,7 +24,7 @@ function make(task, checked, onChange, _children) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (_self) {
-              return React.createElement("li", undefined, task, React.createElement("input", {
+              return React.createElement("li", undefined, checked ? React.createElement("del", undefined, task) : task, React.createElement("input", {
                               checked: checked,
                               type: "checkbox",
                               onChange: onChange
@@ -45,10 +45,6 @@ var TodoAppItem = /* module */[
 var component$1 = ReasonReact.reducerComponent("TodoApp");
 
 function make$1(_children) {
-  var change = function (evt, _self) {
-    console.log(evt);
-    return /* () */0;
-  };
   var setRef = function (theRef, param) {
     param[/* state */1][/* inputRef */2][0] = (theRef == null) ? undefined : Caml_option.some(theRef);
     return /* () */0;
@@ -62,7 +58,7 @@ function make$1(_children) {
         return /* () */0;
       } else {
         Curry._1(self[/* send */3], /* AddTodo */Block.__(0, [r.value]));
-        return Curry._1(self[/* send */3], /* ToggleForm */1);
+        return Curry._1(self[/* send */3], /* ToggleForm */0);
       }
     } else {
       return /* () */0;
@@ -90,11 +86,13 @@ function make$1(_children) {
           /* render */(function (self) {
               var match = self[/* state */1][/* formToggle */1];
               return React.createElement("div", undefined, React.createElement("h1", undefined, "Todo:"), React.createElement("ul", undefined, $$Array.mapi((function (idx, item) {
-                                    return ReasonReact.element(String(idx) + ("-" + item[/* name */0]), undefined, make(item[/* name */0], item[/* complete */1], Curry._1(self[/* handle */0], change), /* array */[]));
+                                    return ReasonReact.element(String(idx) + ("-" + item[/* name */0]), undefined, make(item[/* name */0], item[/* complete */1], Curry._1(self[/* handle */0], (function (param, param$1) {
+                                                          return Curry._1(param$1[/* send */3], /* ToggleTodo */Block.__(1, [idx]));
+                                                        })), /* array */[]));
                                   }), self[/* state */1][/* todos */0])), match ? showForm(self) : React.createElement("button", {
                                 type: "button",
                                 onClick: (function (_evt) {
-                                    return Curry._1(self[/* send */3], /* ToggleForm */1);
+                                    return Curry._1(self[/* send */3], /* ToggleForm */0);
                                   })
                               }, "Add Todo"));
             }),
@@ -111,17 +109,13 @@ function make$1(_children) {
           /* retainedProps */component$1[/* retainedProps */11],
           /* reducer */(function (action, state) {
               if (typeof action === "number") {
-                if (action === 0) {
-                  return /* NoUpdate */0;
-                } else {
-                  var match = state[/* formToggle */1];
-                  var newFormToggle = match ? /* ShowButton */0 : /* ShowForm */1;
-                  return /* Update */Block.__(0, [/* record */[
-                              /* todos */state[/* todos */0],
-                              /* formToggle */newFormToggle,
-                              /* inputRef */state[/* inputRef */2]
-                            ]]);
-                }
+                var match = state[/* formToggle */1];
+                var newFormToggle = match ? /* ShowButton */0 : /* ShowForm */1;
+                return /* Update */Block.__(0, [/* record */[
+                            /* todos */state[/* todos */0],
+                            /* formToggle */newFormToggle,
+                            /* inputRef */state[/* inputRef */2]
+                          ]]);
               } else if (action.tag) {
                 var idx = action[0];
                 Caml_array.caml_array_get(state[/* todos */0], idx)[/* complete */1] = !Caml_array.caml_array_get(state[/* todos */0], idx)[/* complete */1];
