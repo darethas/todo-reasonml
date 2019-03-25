@@ -3,9 +3,11 @@ module TodoAppItem = {
   let make = (~task, ~checked, ~onChange, _children) => {
     ...component,
     render: _self => {
-      <li>
-        {checked ? <del> {ReasonReact.string(task)} </del> : ReasonReact.string(task)}
-        <input type_="checkbox" checked onChange />
+      <li className="mb-1">
+        <input type_="checkbox" className="border rounded-full mr-2" checked onChange />
+        <p className="font-mono text-lg inline-block">
+          {checked ? <s> {ReasonReact.string(task)} </s> : ReasonReact.string(task)}
+        </p>
       </li>;
     },
   };
@@ -55,16 +57,22 @@ module TodoApp = {
     };
     let showForm = self => {
       <div>
-        <label> {ReasonReact.string("Task Name: ")} </label>
-        <input type_="text" ref={self.ReasonReact.handle(setRef)} />
-        <button type_="button" onClick={self.handle(handleAdd)}> {ReasonReact.string("Add")} </button>
+        <label className="font-mono text-lg"> {ReasonReact.string("Task Name: ")} </label>
+        <input
+          type_="text"
+          ref={self.ReasonReact.handle(setRef)}
+          className="font-mono bg-white border shadow-md rounded mr-2 px-1 py-1"
+        />
+        <button type_="button" onClick={self.handle(handleAdd)} className="btn">
+          {ReasonReact.string("Add")}
+        </button>
       </div>;
     };
     {
       ...component,
 
       initialState: () => {
-        todos: [|{name: "Add some todos", complete: false}|],
+        todos: [|{name: "some todo", complete: false}|],
         formToggle: ShowButton,
         inputRef: ref(None),
       },
@@ -87,8 +95,8 @@ module TodoApp = {
       },
 
       render: self => {
-        <div>
-          <h1> {ReasonReact.string("Todo:")} </h1>
+        <div className="container mx-auto text-center w-full">
+          <h1 className="text-5xl font-mono"> {ReasonReact.string("Things To Do")} </h1>
           <ul>
             {Array.mapi(
                (idx, item) =>
@@ -102,9 +110,11 @@ module TodoApp = {
              )
              ->ReasonReact.array}
           </ul>
+          /*** </ul> **/
+          /*** <ul className="list-disc list-inside"> **/
           {switch (self.state.formToggle) {
            | ShowButton =>
-             <button type_="button" onClick={_evt => self.send(ToggleForm)}>
+             <button type_="button" onClick={_evt => self.send(ToggleForm)} className="btn mt-4">
                {ReasonReact.string("Add Todo")}
              </button>
            | ShowForm => showForm(self)

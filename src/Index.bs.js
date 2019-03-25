@@ -24,11 +24,16 @@ function make(task, checked, onChange, _children) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (_self) {
-              return React.createElement("li", undefined, checked ? React.createElement("del", undefined, task) : task, React.createElement("input", {
+              return React.createElement("li", {
+                          className: "mb-1"
+                        }, React.createElement("input", {
+                              className: "border rounded-full mr-2",
                               checked: checked,
                               type: "checkbox",
                               onChange: onChange
-                            }));
+                            }), React.createElement("p", {
+                              className: "font-mono text-lg inline-block"
+                            }, checked ? React.createElement("s", undefined, task) : task));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],
@@ -65,10 +70,14 @@ function make$1(_children) {
     }
   };
   var showForm = function (self) {
-    return React.createElement("div", undefined, React.createElement("label", undefined, "Task Name: "), React.createElement("input", {
+    return React.createElement("div", undefined, React.createElement("label", {
+                    className: "font-mono text-lg"
+                  }, "Task Name: "), React.createElement("input", {
                     ref: Curry._1(self[/* handle */0], setRef),
+                    className: "font-mono bg-white border shadow-md rounded mr-2 px-1 py-1",
                     type: "text"
                   }), React.createElement("button", {
+                    className: "btn",
                     type: "button",
                     onClick: Curry._1(self[/* handle */0], handleAdd)
                   }, "Add"));
@@ -85,11 +94,16 @@ function make$1(_children) {
           /* shouldUpdate */component$1[/* shouldUpdate */8],
           /* render */(function (self) {
               var match = self[/* state */1][/* formToggle */1];
-              return React.createElement("div", undefined, React.createElement("h1", undefined, "Todo:"), React.createElement("ul", undefined, $$Array.mapi((function (idx, item) {
+              return React.createElement("div", {
+                          className: "container mx-auto text-center w-full"
+                        }, React.createElement("h1", {
+                              className: "text-5xl font-mono"
+                            }, "Things To Do"), React.createElement("ul", undefined, $$Array.mapi((function (idx, item) {
                                     return ReasonReact.element(String(idx) + ("-" + item[/* name */0]), undefined, make(item[/* name */0], item[/* complete */1], Curry._1(self[/* handle */0], (function (param, param$1) {
                                                           return Curry._1(param$1[/* send */3], /* ToggleTodo */Block.__(1, [idx]));
                                                         })), /* array */[]));
                                   }), self[/* state */1][/* todos */0])), match ? showForm(self) : React.createElement("button", {
+                                className: "btn mt-4",
                                 type: "button",
                                 onClick: (function (_evt) {
                                     return Curry._1(self[/* send */3], /* ToggleForm */0);
@@ -99,7 +113,7 @@ function make$1(_children) {
           /* initialState */(function (param) {
               return /* record */[
                       /* todos : array */[/* record */[
-                          /* name */"Add some todos",
+                          /* name */"some todo",
                           /* complete */false
                         ]],
                       /* formToggle : ShowButton */0,
