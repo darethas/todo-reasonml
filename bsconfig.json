@@ -3,16 +3,17 @@
   comma. If this screws with your editor highlighting, please tell us by filing
   an issue! */
 {
-  "name": "react-template",
+  "name": "todo-reaosnml",
   "reason": {
     "react-jsx": 3
   },
+  "bsc-flags": ["-bs-super-errors"],
   "sources": {
     "dir" : "src",
     "subdirs" : true
   },
   "package-specs": [{
-    "module": "commonjs",
+    "module": "es6",
     "in-source": true
   }],
   "suffix": ".bs.js",
@@ -21,6 +22,7 @@
     "reason-react"
   ],
   "refmt": 3,
+  "ppx-flags": [],
   "warnings": {
     "error": "+5"
   }
