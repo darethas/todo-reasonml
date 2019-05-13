@@ -37,10 +37,13 @@ function Index$TodoApp(Props) {
                   ];
           } else if (action.tag) {
             var idx = action[0];
-            console.log(state[/* todos */0]);
-            Caml_array.caml_array_get(state[/* todos */0], idx)[/* complete */1] = !Caml_array.caml_array_get(state[/* todos */0], idx)[/* complete */1];
-            console.log(state[/* todos */0]);
-            return state;
+            var newTodos = $$Array.copy(state[/* todos */0]);
+            Caml_array.caml_array_get(newTodos, idx)[/* complete */1] = !Caml_array.caml_array_get(newTodos, idx)[/* complete */1];
+            return /* record */[
+                    /* todos */newTodos,
+                    /* formToggle */state[/* formToggle */1],
+                    /* input */state[/* input */2]
+                  ];
           } else {
             return /* record */[
                     /* todos */$$Array.append(state[/* todos */0], /* array */[/* record */[

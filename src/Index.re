@@ -52,10 +52,9 @@ module TodoApp = {
                 ),
             }
           | ToggleTodo(idx) =>
-            Js.log(state.todos)
-            state.todos[idx].complete = !state.todos[idx].complete;
-            Js.log(state.todos)
-            state
+            let newTodos = Array.copy(state.todos);
+            newTodos[idx].complete = !newTodos[idx].complete;
+            {...state, todos: newTodos};
           | ToggleForm =>
             let newFormToggle =
               switch (state.formToggle) {
@@ -71,7 +70,7 @@ module TodoApp = {
 
     let change = (idx, _evt) => {
       dispatch(ToggleTodo(idx));
-    }
+    };
 
     let handleAdd = _e => {
       switch (inputRef->React.Ref.current->Js.Nullable.toOption) {
